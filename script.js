@@ -30,6 +30,7 @@ function calculateCommission() {
         }
     } else if (charge && !takeHome) {
         let commissionAmount = parseFloat(charge);
+        let totalCommission = 0;
 
         const commissionRates = [
             { min: 0, max: 10000, rate: 0.15 },
@@ -41,16 +42,20 @@ function calculateCommission() {
         ];
 
         for (const rate of commissionRates) {
-            if (commissionAmount >= rate.min && commissionAmount <= rate.max) {
-                let commission = commissionAmount * rate.rate;
-                if (chargeVAT) {
-                    let vatDeductible = commission * 0.2;
-                    result.textContent = `For a charge of £${charge}, you will owe a commission of £${commission.toFixed(2)} (£${vatDeductible.toFixed(2)} is VAT deductible)`;
-                } else {
-                    result.textContent = `For a charge of £${charge}, you will owe a commission of £${commission.toFixed(2)}`;
-                }
-                break;
+            const rangeMax = Math.min(commissionAmount, rate.max);
+            const rangeMin = Math.max(commissionAmount - rate.max, rate.min);
+            const rangeAmount = rangeMax - rangeMin;
+            if (rangeAmount > 0) {
+                const commission = rangeAmount * rate.rate;
+                totalCommission += commission;
             }
+        }
+
+        if (chargeVAT) {
+            let vatDeductible = totalCommission * 0.2;
+            result.textContent = `For a charge of £${charge}, you will owe a commission of £${totalCommission.toFixed(2)} (£${vatDeductible.toFixed(2)} is VAT deductible)`;
+        } else {
+            result.textContent = `For a charge of £${charge}, you will owe a commission of £${totalCommission.toFixed(2)}`;
         }
     } else {
         result.textContent = 'Please enter either the amount to take home or the amount to charge.';
