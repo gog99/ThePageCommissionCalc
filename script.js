@@ -4,10 +4,13 @@ function clearOtherInput(inputId) {
 }
 
 function calculateCommission() {
-    const takeHome = document.getElementById('takeHome').value;
-    const charge = document.getElementById('charge').value;
-    const chargeVAT = document.getElementById('chargeVAT') ? document.getElementById('chargeVAT').checked : false;
+    const takeHomeInput = document.getElementById('takeHome');
+    const chargeInput = document.getElementById('charge');
+    const chargeVAT = document.getElementById('chargeVAT').checked;
     const result = document.getElementById('result');
+
+    const takeHome = takeHomeInput.value;
+    const charge = chargeInput.value;
 
     if (takeHome && !charge) {
         const commissionRates = [
