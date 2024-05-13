@@ -1,7 +1,12 @@
+function clearOtherInput(inputId) {
+    const otherInputId = inputId === 'takeHome' ? 'charge' : 'takeHome';
+    document.getElementById(otherInputId).value = '';
+}
+
 function calculateCommission() {
     const takeHome = document.getElementById('takeHome').value;
     const charge = document.getElementById('charge').value;
-    const includeVAT = document.getElementById('includeVAT').checked;
+    const chargeVAT = document.getElementById('chargeVAT').checked;
     const result = document.getElementById('result');
 
     if (takeHome && !charge) {
@@ -22,16 +27,14 @@ function calculateCommission() {
             }
         }
 
-        if (includeVAT) {
+        if (chargeVAT) {
+            result.textContent = `To take home £${takeHome}, you should charge £${chargeAmount.toFixed(2)} (excluding VAT)`;
+        } else {
             chargeAmount *= 1.2;
+            result.textContent = `To take home £${takeHome}, you should charge £${chargeAmount.toFixed(2)} (including VAT)`;
         }
-
-        result.textContent = `To take home £${takeHome}, you should charge £${chargeAmount.toFixed(2)}`;
     } else if (charge && !takeHome) {
         let commissionAmount = parseFloat(charge);
-        if (includeVAT) {
-            commissionAmount /= 1.2;
-        }
 
         const commissionRates = [
             { min: 0, max: 10000, rate: 0.15 },
@@ -44,7 +47,10 @@ function calculateCommission() {
 
         for (const rate of commissionRates) {
             if (commissionAmount >= rate.min && commissionAmount <= rate.max) {
-                const commission = commissionAmount * rate.rate;
+                let commission = commissionAmount * rate.rate;
+                if (chargeVAT) {
+                    commission *= 0.8; // Reduce commission by 20% if VAT is charged
+                }
                 result.textContent = `For a charge of £${charge}, you will owe a commission of £${commission.toFixed(2)}`;
                 break;
             }

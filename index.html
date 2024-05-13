@@ -50,15 +50,15 @@
     <div class="calculator">
         <div class="form-group">
             <label for="takeHome">Amount to Take Home:</label>
-            <input type="number" id="takeHome" placeholder="Enter amount">
+            <input type="number" id="takeHome" placeholder="Enter amount" oninput="clearOtherInput('charge')">
         </div>
         <div class="form-group">
             <label for="charge">Amount to Charge:</label>
-            <input type="number" id="charge" placeholder="Enter amount">
+            <input type="number" id="charge" placeholder="Enter amount" oninput="clearOtherInput('takeHome')">
         </div>
         <div class="form-group">
             <label>
-                <input type="checkbox" id="includeVAT"> Include VAT (20%)
+                <input type="checkbox" id="chargeVAT"> Charge VAT
             </label>
         </div>
         <button onclick="calculateCommission()">Calculate</button>
