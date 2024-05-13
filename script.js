@@ -4,16 +4,18 @@ function calculateCommission() {
     const chargeVAT = document.getElementById('chargeVAT').checked;
     const result = document.getElementById('result');
 
-    if (takeHome && !charge) {
-        const commissionRates = [
-            { min: 0, max: 10000, rate: 0.15 },
-            { min: 10001, max: 50000, rate: 0.11 },
-            { min: 50001, max: 100000, rate: 0.075 },
-            { min: 100001, max: 200000, rate: 0.06 },
-            { min: 200001, max: 500000, rate: 0.0475 },
-            { min: 500001, max: 1000000, rate: 0.04 }
-        ];
+    const commissionRates = [
+        { min: 0, max: 5000, rate: 0.10 },
+        { min: 5001, max: 20000, rate: 0.08 },
+        { min: 20001, max: 50000, rate: 0.06 },
+        { min: 50001, max: 100000, rate: 0.0475 },
+        { min: 100001, max: 200000, rate: 0.0375 },
+        { min: 200001, max: 500000, rate: 0.03 },
+        { min: 500001, max: 1000000, rate: 0.025 },
+        { min: 1000001, max: 1500000, rate: 0.0225 }
+    ];
 
+    if (takeHome && !charge) {
         let chargeAmount = parseFloat(takeHome);
         for (const rate of commissionRates) {
             if (chargeAmount >= rate.min && chargeAmount <= rate.max) {
@@ -31,15 +33,6 @@ function calculateCommission() {
     } else if (charge && !takeHome) {
         let commissionAmount = parseFloat(charge);
         let totalCommission = 0;
-
-        const commissionRates = [
-            { min: 0, max: 10000, rate: 0.15 },
-            { min: 10001, max: 50000, rate: 0.11 },
-            { min: 50001, max: 100000, rate: 0.075 },
-            { min: 100001, max: 200000, rate: 0.06 },
-            { min: 200001, max: 500000, rate: 0.0475 },
-            { min: 500001, max: 1000000, rate: 0.04 }
-        ];
 
         for (const rate of commissionRates) {
             const rangeMax = Math.min(commissionAmount, rate.max);
