@@ -6,7 +6,7 @@ function clearOtherInput(inputId) {
 function calculateCommission() {
     const takeHome = document.getElementById('takeHome').value;
     const charge = document.getElementById('charge').value;
-    const chargeVAT = document.getElementById('chargeVAT').checked;
+    const chargeVAT = document.getElementById('chargeVAT') ? document.getElementById('chargeVAT').checked : false;
     const result = document.getElementById('result');
 
     if (takeHome && !charge) {
