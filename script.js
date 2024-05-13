@@ -1,8 +1,3 @@
-function clearOtherInput(inputId) {
-    const otherInputId = inputId === 'takeHome' ? 'charge' : 'takeHome';
-    document.getElementById(otherInputId).value = '';
-}
-
 function calculateCommission() {
     const takeHome = document.getElementById('takeHome').value;
     const charge = document.getElementById('charge').value;
@@ -28,10 +23,10 @@ function calculateCommission() {
         }
 
         if (chargeVAT) {
-            result.textContent = `To take home £${takeHome}, you should charge £${chargeAmount.toFixed(2)} (excluding VAT)`;
-        } else {
             chargeAmount *= 1.2;
-            result.textContent = `To take home £${takeHome}, you should charge £${chargeAmount.toFixed(2)} (including VAT)`;
+            result.textContent = `To take home £${takeHome}, you should charge £${chargeAmount.toFixed(2)}`;
+        } else {
+            result.textContent = `To take home £${takeHome}, you should charge £${chargeAmount.toFixed(2)}`;
         }
     } else if (charge && !takeHome) {
         let commissionAmount = parseFloat(charge);
@@ -49,9 +44,11 @@ function calculateCommission() {
             if (commissionAmount >= rate.min && commissionAmount <= rate.max) {
                 let commission = commissionAmount * rate.rate;
                 if (chargeVAT) {
-                    commission *= 0.8; // Reduce commission by 20% if VAT is charged
+                    let vatDeductible = commission * 0.2;
+                    result.textContent = `For a charge of £${charge}, you will owe a commission of £${commission.toFixed(2)} (£${vatDeductible.toFixed(2)} is VAT deductible)`;
+                } else {
+                    result.textContent = `For a charge of £${charge}, you will owe a commission of £${commission.toFixed(2)}`;
                 }
-                result.textContent = `For a charge of £${charge}, you will owe a commission of £${commission.toFixed(2)}`;
                 break;
             }
         }
@@ -59,4 +56,3 @@ function calculateCommission() {
         result.textContent = 'Please enter either the amount to take home or the amount to charge.';
     }
 }
-
