@@ -22,15 +22,10 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
-        .calculator img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            margin: 0 auto 5px;
-        }
         h1 {
-            margin: 10px 0 25px;
+            margin: 10px 0 35px;
             text-align: center;
+            font-size: 50px;
         }
         .form-group {
             margin-bottom: 20px;
@@ -61,28 +56,43 @@
             font-weight: bold;
             text-align: center;
         }
+        .logo {
+            width: 20%;
+        }
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
     </style>
 </head>
 <body>
-    <div class="calculator">
-        <img src="https://www.the-page.co.uk/psoostoo/2022/12/The-Page-LOGO-share.png" alt="The Page logo">
-        <h1>Commission Calculator</h1>
-        <div class="form-group">
-            <label for="takeHome">Amount to Take Home:</label>
-            <input type="number" id="takeHome" placeholder="Enter amount">
+    
+    <div class="wrapper">
+        <img class ="logo" src="https://www.the-page.co.uk/psoostoo/2022/12/The-Page-LOGO-share.png" alt="The Page logo">
+        <div class="calculator">
+            <h1>Commission Calculator</h1>
+            <div class="form-group">
+                <label for="takeHome">Amount to Take Home:</label>
+                <input type="number" id="takeHome" placeholder="Enter amount">
+            </div>
+            <div class="form-group">
+                <label for="charge">Amount to Charge:</label>
+                <input type="number" id="charge" placeholder="Enter amount">
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="chargeVAT"> Yes, I charge VAT
+                </label>
+            </div>
+            <button onclick="calculateCommission()">Calculate</button>
+            <div id="result"></div>
         </div>
-        <div class="form-group">
-            <label for="charge">Amount to Charge:</label>
-            <input type="number" id="charge" placeholder="Enter amount">
-        </div>
-        <div class="form-group">
-            <label>
-                <input type="checkbox" id="chargeVAT"> Yes, I charge VAT
-            </label>
-        </div>
-        <button onclick="calculateCommission()">Calculate</button>
-        <div id="result"></div>
     </div>
+    
     <script src="script.js"></script>
 </body>
 </html>
