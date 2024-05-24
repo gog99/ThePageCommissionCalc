@@ -1,56 +1,71 @@
 function calculateCommission() {
-    const takeHome = document.getElementById('takeHome').value;
-    const charge = document.getElementById('charge').value;
+    const takeHome = parseFloat(document.getElementById('takeHome').value);
+    const charge = parseFloat(document.getElementById('charge').value);
     const chargeVAT = document.getElementById('chargeVAT').checked;
     const result = document.getElementById('result');
 
     const commissionRates = [
-        { min: 0, max: 5000, rate: 0.10 },
-        { min: 5001, max: 20000, rate: 0.08 },
-        { min: 20001, max: 50000, rate: 0.06 },
-        { min: 50001, max: 100000, rate: 0.0475 },
-        { min: 100001, max: 200000, rate: 0.0375 },
-        { min: 200001, max: 500000, rate: 0.03 },
-        { min: 500001, max: 1000000, rate: 0.025 },
-        { min: 1000001, max: 1500000, rate: 0.0225 }
+        { min: 0, max: 10000, rate: 0.15 },
+        { min: 10000, max: 50000, rate: 0.11 },
+        { min: 50000, max: 100000, rate: 0.075 },
+        { min: 100000, max: 200000, rate: 0.06 },
+        { min: 200000, max: 500000, rate: 0.0475 },
+        { min: 500000, max: 1000000, rate: 0.04 }
     ];
 
-    if (takeHome && !charge) {
-        let chargeAmount = parseFloat(takeHome);
+    const VAT_RATE = 0.2;
+
+    function getCommissionRate(amount) {
         for (const rate of commissionRates) {
-            if (chargeAmount >= rate.min && chargeAmount <= rate.max) {
-                chargeAmount /= (1 - rate.rate);
+            if (amount >= rate.min && amount < rate.max) {
+                return rate.rate;
+            }
+        }
+        return 0.04; // Default to highest rate if amount exceeds 1m
+    }
+
+    function calculateCharge(takeHome, chargeVAT) {
+        let chargeAmount = takeHome;
+        let commissionRate;
+
+        // Iterate through commission rates and calculate the required charge amount
+        for (const rate of commissionRates) {
+            commissionRate = rate.rate;
+            let proposedCharge = chargeAmount / (1 - commissionRate);
+
+            // Check if proposed charge exceeds the next bracket
+            if (proposedCharge > rate.max) {
+                chargeAmount = proposedCharge;
+                continue;
+            } else {
+                chargeAmount = proposedCharge;
                 break;
             }
         }
 
         if (chargeVAT) {
-            chargeAmount *= 1.2;
-            result.textContent = `To take home £${takeHome}, you should charge £${chargeAmount.toFixed(2)}`;
-        } else {
-            result.textContent = `To take home £${takeHome}, you should charge £${chargeAmount.toFixed(2)}`;
+            chargeAmount *= (1 + VAT_RATE);
         }
-    } else if (charge && !takeHome) {
-        let commissionAmount = parseFloat(charge);
-        let totalCommission = 0;
 
-        for (const rate of commissionRates) {
-            const rangeMax = Math.min(commissionAmount, rate.max);
-            const rangeMin = Math.max(commissionAmount - rate.max, rate.min);
-            const rangeAmount = rangeMax - rangeMin;
-            if (rangeAmount > 0) {
-                const commission = rangeAmount * rate.rate;
-                totalCommission += commission;
-            }
-        }
+        return chargeAmount;
+    }
+
+    if (takeHome && !charge) {
+        let chargeAmount = calculateCharge(takeHome, chargeVAT);
+        result.textContent = `To take home £${takeHome.toFixed(2)}, you should charge £${chargeAmount.toFixed(2)}`;
+    } else if (charge && !takeHome) {
+        let commissionRate = getCommissionRate(charge);
+        let commissionAmount = charge * commissionRate;
 
         if (chargeVAT) {
-            let vatDeductible = totalCommission * 0.2;
-            result.textContent = `For a charge of £${charge}, you will owe a commission of £${totalCommission.toFixed(2)} (£${vatDeductible.toFixed(2)} is VAT deductible)`;
+            let vatDeductible = commissionAmount * VAT_RATE;
+            result.textContent = `For a charge of £${charge.toFixed(2)}, you will owe a commission of £${commissionAmount.toFixed(2)} (£${vatDeductible.toFixed(2)} is VAT deductible)`;
         } else {
-            result.textContent = `For a charge of £${charge}, you will owe a commission of £${totalCommission.toFixed(2)}`;
+            result.textContent = `For a charge of £${charge.toFixed(2)}, you will owe a commission of £${commissionAmount.toFixed(2)}`;
         }
     } else {
         result.textContent = 'Please enter either the amount to take home or the amount to charge.';
     }
 }
+
+document.getElementById('calculate').addEventListener('click', calculateCommission);
