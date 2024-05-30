@@ -24,42 +24,33 @@ function calculateCommission() {
         return 0.04; // Default to highest rate if amount exceeds 1m
     }
 
-    function calculateCharge(takeHome, chargeVAT) {
-        let chargeAmount = takeHome;
-        let commissionRate;
-
-        // Iterate through commission rates and calculate the required charge amount
-        for (const rate of commissionRates) {
-            commissionRate = rate.rate;
-            let proposedCharge = chargeAmount / (1 - commissionRate);
-
-            // Check if proposed charge exceeds the next bracket
-            if (proposedCharge > rate.max) {
-                chargeAmount = proposedCharge;
-                continue;
-            } else {
-                chargeAmount = proposedCharge;
-                break;
-            }
-        }
-
-        if (chargeVAT) {
-            chargeAmount *= (1 + VAT_RATE);
-        }
-
+    function calculateChargeForTakeHome(takeHome, chargeVAT) {
+        let commissionRate = getCommissionRate(takeHome);
+        let effectiveRate = chargeVAT ? commissionRate : commissionRate * 1.2;
+        let chargeAmount = takeHome / (1 - effectiveRate);
         return chargeAmount;
     }
 
-    if (takeHome && !charge) {
-        let chargeAmount = calculateCharge(takeHome, chargeVAT);
-        result.textContent = `To take home £${takeHome.toFixed(2)}, you should charge £${chargeAmount.toFixed(2)}`;
-    } else if (charge && !takeHome) {
+    function calculateCommissionForCharge(charge, chargeVAT) {
         let commissionRate = getCommissionRate(charge);
         let commissionAmount = charge * commissionRate;
 
+        if (!chargeVAT) {
+            commissionAmount += commissionAmount * VAT_RATE;
+        }
+
+        return commissionAmount;
+    }
+
+    if (takeHome && !charge) {
+        let chargeAmount = calculateChargeForTakeHome(takeHome, chargeVAT);
+        result.textContent = `To take home £${takeHome.toFixed(2)}, you should charge £${chargeAmount.toFixed(2)}`;
+    } else if (charge && !takeHome) {
+        let commissionAmount = calculateCommissionForCharge(charge, chargeVAT);
+
         if (chargeVAT) {
             let vatDeductible = commissionAmount * VAT_RATE;
-            result.textContent = `For a charge of £${charge.toFixed(2)}, you will owe a commission of £${commissionAmount.toFixed(2)} (£${vatDeductible.toFixed(2)} is VAT deductible)`;
+            result.textContent = `For a charge of £${charge.toFixed(2)}, you will owe a commission of £${commissionAmount.toFixed(2)} (+ £${vatDeductible.toFixed(2)} VAT)`;
         } else {
             result.textContent = `For a charge of £${charge.toFixed(2)}, you will owe a commission of £${commissionAmount.toFixed(2)}`;
         }
@@ -68,4 +59,4 @@ function calculateCommission() {
     }
 }
 
-document.getElementById('calculate').addEventListener('click', calculateCommission);
+document.querySelector('button').addEventListener('click', calculateCommission);
