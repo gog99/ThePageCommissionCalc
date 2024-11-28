@@ -1,6 +1,6 @@
 # ThePageCommissionCalc
 
-A simple comission calculator for contractors on thepage.co.uk
+A simple comission calculator for contractors on the-page.co.uk
 
 Allows you to work out the amount to charge for a given 'take-home', or the commission that will be owed charging a certain amount.
 
