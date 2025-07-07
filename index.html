@@ -16,7 +16,6 @@
     }
 
     *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
       font-family: "Inter", Arial, sans-serif;
       background: var(--brand-ivory);
@@ -28,11 +27,7 @@
     }
 
     /* ------------- LOGO ------------- */
-    .logo {
-      width: 140px;
-      height: auto;
-      margin-bottom: 1.5rem;
-    }
+    .logo { width: 140px; height: auto; margin-bottom: 1.75rem; }
 
     /* ------------- CARD ------------- */
     .card {
@@ -46,20 +41,19 @@
     }
 
     /* ------------- TABS ------------- */
-    .tabs { display: flex; border-bottom: 2px solid var(--brand-plum-dark); }
-
+    .tabs {
+      display: flex;
+      border-bottom: 2px solid var(--brand-plum-dark);
+      /* round the top like the card */
+      border-top-left-radius: 1rem;
+      border-top-right-radius: 1rem;
+      overflow: hidden;
+     display: flex; border-bottom: 2px solid var(--brand-plum-dark); }
     .tab {
-      flex: 1;
-      padding: 1rem;
-      text-align: center;
-      font-weight: 700;
-      cursor: pointer;
-      background: var(--brand-plum-dark);
-      border: none;
-      color: var(--text-on-plum);
+      flex: 1; padding: 1rem; text-align: center; font-weight: 700; cursor: pointer;
+      background: var(--brand-plum-dark); border: none; color: var(--text-on-plum);
       transition: background 0.2s ease;
     }
-
     .tab:hover { background: #2b112e; }
     .tab.active { background: var(--brand-plum); border-bottom: 4px solid var(--brand-mint); }
 
@@ -67,84 +61,53 @@
     .section { display: none; padding: 2rem 2rem 0; }
     .section.active { display: block; }
 
-    /* ------------- FORM & CONTENT ------------- */
+    /* ------------- FORM / CONTENT ------------- */
     h1 { font-size: 1.75rem; font-weight: 700; text-align: center; margin-bottom: 1.5rem; }
     label { display: block; margin-top: 1.25rem; font-weight: 600; font-size: 0.95rem; }
-
     input, select {
-      width: 100%;
-      margin-top: 0.35rem;
-      padding: 0.65rem 0.85rem;
-      border: none;
-      border-radius: 0.5rem;
-      font-size: 1rem;
-      background: #fff;
-      color: #000;
+      width: 100%; margin-top: 0.35rem; padding: 0.65rem 0.85rem; border: none;
+      border-radius: 0.5rem; font-size: 1rem; background: #fff; color: #000;
     }
-
     input:focus, select:focus { outline: 3px solid var(--brand-mint); }
-
     button.calculate {
-      width: 100%;
-      margin-top: 2rem;
-      padding: 0.75rem 1rem;
-      border: none;
-      border-radius: 0.75rem;
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: #fff;
-      background: var(--brand-mint);
-      cursor: pointer;
-      transition: background 0.15s ease;
+      width: 100%; margin-top: 2rem; padding: 0.75rem 1rem; border: none;
+      border-radius: 0.75rem; font-size: 1.1rem; font-weight: 700; color: #fff;
+      background: var(--brand-mint); cursor: pointer; transition: background 0.15s ease;
     }
-
     button.calculate:hover { background: #009a6a; }
 
-    .result {
-      margin-top: 2rem;
-      background: var(--brand-plum-dark);
-      border-radius: 0.75rem;
-      padding: 1.5rem 1rem;
-    }
-
-    .result h2 { font-size: 1.25rem; margin-bottom: 1rem; }
-
+    /* ------------- RESULTS ------------- */
+    .result { margin-top: 2rem; background: var(--brand-plum-dark); border-radius: 0.75rem; padding: 1.5rem 1rem; }
     .calc {
-      background: rgba(0, 0, 0, 0.25);
-      border-radius: 0.5rem;
-      padding: 0.75rem 1rem;
-      font-family: Menlo, Consolas, monospace;
-      font-size: 0.9rem;
-      white-space: pre-wrap;
-      line-height: 1.4;
-      margin-top: 1rem; /* extra spacing before explanation */
+      background: rgba(0, 0, 0, 0.25); border-radius: 0.5rem; padding: 0.75rem 1rem;
+      font-family: Menlo, Consolas, monospace; font-size: 0.9rem; white-space: pre-wrap;
+      line-height: 1.4; margin-bottom: 1.25rem;
     }
+    #newQuoteRow { font-weight: 600; font-size: 1.05rem; }
 
-    /* ------------- RATES TABLE ------------- */
+    /* ------------- TABLE (rates) ------------- */
     table { width: 100%; border-collapse: collapse; margin-top: 1.2rem; font-size: 0.95rem; }
     th, td { padding: 0.6rem; border: 1px solid var(--brand-plum-dark); text-align: center; }
     thead { background: var(--brand-plum-dark); }
   </style>
 </head>
 <body>
-  <!-- LOGO -->
-  <img src="https://www.the-page.co.uk/wp-content/uploads/2024/07/The-Page-Logo.svg" alt="The Page logo" class="logo" />
+  <img src="https://www.the-page.co.uk/wp-content/uploads/2024/07/The-Page-Logo.svg" alt="The Page logo" class="logo">
 
   <div class="card">
-    <!-- Tabs -->
     <div class="tabs">
       <button class="tab active" data-target="calc">Calculator</button>
       <button class="tab" data-target="rates">View Rates</button>
     </div>
 
-    <!-- Calculator Section -->
+    <!-- CALCULATOR SECTION -->
     <div id="calc" class="section active">
       <h1>Commission Calculator</h1>
 
-      <label for="quote">Original quote (pre‑VAT) £</label>
-      <input type="number" id="quote" min="0" step="1" placeholder="e.g. 27500" inputmode="decimal" />
+      <label for="quote">Original quote (pre-VAT) £</label>
+      <input type="number" id="quote" min="0" step="1" placeholder="e.g. 27500" inputmode="decimal">
 
-      <label for="vatReg">Are you VAT‑registered?</label>
+      <label for="vatReg">Are you VAT-registered?</label>
       <select id="vatReg">
         <option value="yes">Yes</option>
         <option value="no">No</option>
@@ -153,23 +116,17 @@
       <button class="calculate" id="calcBtn">Calculate</button>
 
       <div id="output" class="result" hidden>
-        <h2>Results</h2>
-        <p id="commissionRow"></p>
-        <p id="vatRow"></p>
-        <p id="totalRow"></p>
-        <p id="newQuoteRow"></p>
         <div id="explanation" class="calc"></div>
+        <p id="newQuoteRow"></p>
       </div>
     </div>
 
-    <!-- Rates Section -->
+    <!-- RATES SECTION -->
     <div id="rates" class="section">
       <h1>Commission Rates Explained</h1>
       <p><strong>1. Quotes up to £20,000</strong> (labour &amp; materials) attract a <em>flat‑rate</em> commission according to the band below:</p>
       <table>
-        <thead>
-          <tr><th>Quote band (£)</th><th>Commission (£)</th></tr>
-        </thead>
+        <thead><tr><th>Quote band (£)</th><th>Commission (£)</th></tr></thead>
         <tbody>
           <tr><td>6,000</td><td>1,100</td></tr>
           <tr><td>7,000</td><td>1,200</td></tr>
@@ -195,26 +152,24 @@
         <li>4% on any amount above £50,000</li>
       </ul>
 
-      <p style="margin-top:1.25rem">VAT (currently 20%) is added to our commission. If you’re VAT‑registered you can reclaim it; if not, include the VAT amount when adjusting your client quote.</p>
-      <p style="margin-top:2rem; font-size:0.9rem; opacity:0.8;">Tip: switch back to the <em>Calculator</em> tab and run some examples to see the breakdown automatically.</p>
+      <p style="margin-top:1.25rem">VAT (currently 20%) is added to our commission. If you’re VAT‑registered you can reclaim it; if not, the VAT must be passed on to the client.</p>
+      <p style="margin-top:2rem;font-size:0.9rem;opacity:0.8;">Tip: switch back to the <em>Calculator</em> tab and run some examples to see the breakdown automatically.</p>
     </div>
   </div>
 
   <script>
     (() => {
-      /* ------------------ TAB HANDLER ------------------ */
+      /* ----------- TAB HANDLER ----------- */
       const tabs = document.querySelectorAll('.tab');
       const sections = document.querySelectorAll('.section');
-
       tabs.forEach(tab => tab.addEventListener('click', () => {
         tabs.forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
-
         const target = tab.getAttribute('data-target');
         sections.forEach(sec => sec.classList.toggle('active', sec.id === target));
       }));
 
-      /* ------------------ CALCULATOR ------------------ */
+      /* ----------- CALCULATOR ----------- */
       const FLAT = {
         6000: 1100, 7000: 1200, 8000: 1300, 9000: 1350, 10000: 1350, 11000: 1400, 12000: 1500,
         13000: 1600, 14000: 1700, 15000: 1800, 16000: 1900, 17000: 2000, 18000: 2100, 19000: 2200, 20000: 2300
@@ -239,7 +194,7 @@
 
         if (quote <= 20000) {
           commission = getFlat(quote);
-          breakdown = `Flat‑rate band → ${formatGBP(commission)}`;
+          breakdown = `Flat-rate band → ${formatGBP(commission)} (+VAT)`;
         } else {
           const tier1 = Math.min(quote, 50000);
           const part1 = tier1 * 0.12;
@@ -252,22 +207,19 @@
             commission += part2;
             breakdown = `12% × £50,000 = ${formatGBP(6000)}\n4% × ${formatGBP(excess)} = ${formatGBP(part2)}`;
           }
-          breakdown += `\nTotal commission = ${formatGBP(commission)}`;
+          breakdown += `\nTotal commission = ${formatGBP(commission)} (+VAT)`;
         }
 
         const vat = commission * VAT_RATE;
         const totalComm = commission + vat;
         const newQuote = quote + (vatRegistered ? commission : totalComm);
 
-        $("commissionRow").textContent = `Commission (ex VAT): ${formatGBP(commission)}`;
-        $("vatRow").textContent = `VAT on commission (20%): ${formatGBP(vat)}`;
-        $("totalRow").textContent = `Total commission payable: ${formatGBP(totalComm)}`;
-        $("newQuoteRow").textContent = `New quote amount to client: ${formatGBP(newQuote)}`;
         $("explanation").textContent = breakdown;
+        $("newQuoteRow").textContent = `New quote amount to client: ${formatGBP(newQuote)}${vatRegistered ? '' : ' (incl. our VAT)'}`;
 
-        const output = $("output");
-        output.hidden = false;
-        output.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const out = $("output");
+        out.hidden = false;
+        out.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
     })();
   </script>
