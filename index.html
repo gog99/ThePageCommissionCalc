@@ -128,6 +128,12 @@
       <table>
         <thead><tr><th>Quote band (£)</th><th>Commission (£)</th></tr></thead>
         <tbody>
+          <tr><td>&lt; 1,000</td><td>100</td></tr>
+          <tr><td>1,000</td><td>200</td></tr>
+          <tr><td>2,000</td><td>300</td></tr>
+          <tr><td>3,000</td><td>500</td></tr>
+          <tr><td>4,000</td><td>650</td></tr>
+          <tr><td>5,000</td><td>800</td></tr>
           <tr><td>6,000</td><td>1,100</td></tr>
           <tr><td>7,000</td><td>1,200</td></tr>
           <tr><td>8,000</td><td>1,300</td></tr>
@@ -152,7 +158,7 @@
         <li>4% on any amount above £50,000</li>
       </ul>
 
-      <p style="margin-top:1.25rem">VAT (currently 20%) is added to our commission. If you’re VAT‑registered you can reclaim it; if not, the VAT must be passed on to the client.</p>
+      <p style="margin-top:1.25rem">VAT (currently 20%) is added to our commission. If you're VAT‑registered you can reclaim it; if not, the VAT must be passed on to the client.</p>
       <p style="margin-top:2rem;font-size:0.9rem;opacity:0.8;">Tip: switch back to the <em>Calculator</em> tab and run some examples to see the breakdown automatically.</p>
     </div>
   </div>
@@ -171,13 +177,18 @@
 
       /* ----------- CALCULATOR ----------- */
       const FLAT = {
-        6000: 1100, 7000: 1200, 8000: 1300, 9000: 1350, 10000: 1350, 11000: 1400, 12000: 1500,
-        13000: 1600, 14000: 1700, 15000: 1800, 16000: 1900, 17000: 2000, 18000: 2100, 19000: 2200, 20000: 2300
+        1000: 200, 2000: 300, 3000: 500, 4000: 650, 5000: 800, 6000: 1100, 7000: 1200,
+        8000: 1300, 9000: 1350, 10000: 1350, 11000: 1400, 12000: 1500, 13000: 1600,
+        14000: 1700, 15000: 1800, 16000: 1900, 17000: 2000, 18000: 2100, 19000: 2200, 20000: 2300
       };
       const VAT_RATE = 0.20;
       const roundUpK = n => Math.ceil(n / 1000) * 1000;
       const formatGBP = n => `£${n.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-      const getFlat = amt => FLAT[Math.min(20000, Math.max(6000, roundUpK(amt)))] || 2300;
+      const getFlat = amt => {
+        if (amt < 1000) return 100;
+        const rounded = Math.min(20000, roundUpK(amt));
+        return FLAT[rounded] || 2300;
+      };
 
       const $ = id => document.getElementById(id);
 
