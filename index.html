@@ -98,6 +98,7 @@
     <div class="tabs">
       <button class="tab active" data-target="calc">Calculator</button>
       <button class="tab" data-target="rates">View Rates</button>
+      <button class="tab" data-target="standards">Pager Standards</button>
     </div>
 
     <!-- CALCULATOR SECTION -->
@@ -161,6 +162,44 @@
       <p style="margin-top:1.25rem">VAT (currently 20%) is added to our commission. If you're VAT‑registered you can reclaim it; if not, the VAT must be passed on to the client.</p>
       <p style="margin-top:2rem;font-size:0.9rem;opacity:0.8;">Tip: switch back to the <em>Calculator</em> tab and run some examples to see the breakdown automatically.</p>
     </div>
+
+    <!-- PAGER STANDARDS SECTION -->
+    <div id="standards" class="section">
+      <h1>Pager Standards</h1>
+
+      <h2 style="margin-top:1.5rem;font-size:1.1rem;">Accepting Jobs</h2>
+      <ul style="margin:0.5rem 0 0 1.2rem;line-height:1.6;">
+        <li>We expect that any job you say yes to, will be taken seriously. You should give the appropriate amount of effort to try and win that job.</li>
+        <li>If, for any reason, you are unable to honour a job, you must let us know immediately.</li>
+      </ul>
+
+      <h2 style="margin-top:1.5rem;font-size:1.1rem;">Site visits</h2>
+      <ul style="margin:0.5rem 0 0 1.2rem;line-height:1.6;">
+        <li>All booked site visits must be attended. Missing a booked visit almost always results in a complaint from a homeowner.</li>
+        <li>Homeowners react badly to pagers being pushy. Pagers who make a conscious effort to listen and understand a homeowner's plans, and can provide suggestions on how they can be improved, will win many more jobs.</li>
+        <li>Homeowners love it when you take notes/photos. An easy win!</li>
+      </ul>
+
+      <h2 style="margin-top:1.5rem;font-size:1.1rem;">Variations and referrals</h2>
+      <ul style="margin:0.5rem 0 0 1.2rem;line-height:1.6;">
+        <li>Job variations should always be recorded, priced and in writing before the work proceeds.</li>
+        <li>Have an on-going email thread with the homeowner in which they can be informed of variations and confirm the additional cost. A lot of friction comes from unexpected costs at the end of jobs.</li>
+        <li>Variations in jobs are no longer covered by our guarantees. If there are any problems with a job where the scope has changed and this is not reported, we will not be able to support you.</li>
+        <li>Pagers that put referrals back through The Page will be given priority on premium jobs.</li>
+      </ul>
+
+      <h2 style="margin-top:1.5rem;font-size:1.1rem;">Quoting and expectations</h2>
+      <ul style="margin:0.5rem 0 0 1.2rem;line-height:1.6;">
+        <li>Underpromise and overdeliver. Never say you will deliver a quote by a certain day and then miss it.</li>
+        <li>Be realistic and keep communication consistent with us and homeowners in case an emergency comes up.</li>
+        <li>Itemised quotes are beating WhatsApp quotes all day, every day. We are happy to assist in getting you set up with templates – please ask for help!</li>
+      </ul>
+
+      <h2 style="margin-top:1.5rem;font-size:1.1rem;">Work with us!!</h2>
+      <ul style="margin:0.5rem 0 0 1.2rem;line-height:1.6;">
+        <li>The Pagers with the highest conversion rates at the moment are working closely with us, using us to sway homeowners and check quotes. Please make use of us! We don't enjoy relationships where we have to force you every step of the way.</li>
+      </ul>
+    </div>
   </div>
 
   <script>
@@ -177,9 +216,9 @@
 
       /* ----------- CALCULATOR ----------- */
       const FLAT = {
-        1000: 200, 2000: 300, 3000: 500, 4000: 650, 5000: 800, 6000: 1100, 7000: 1200,
-        8000: 1300, 9000: 1350, 10000: 1350, 11000: 1400, 12000: 1500, 13000: 1600,
-        14000: 1700, 15000: 1800, 16000: 1900, 17000: 2000, 18000: 2100, 19000: 2200, 20000: 2300
+        1000: 200, 2000: 200, 3000: 300, 4000: 500, 5000: 650, 6000: 800, 7000: 1100,
+        8000: 1200, 9000: 1300, 10000: 1350, 11000: 1350, 12000: 1400, 13000: 1500,
+        14000: 1600, 15000: 1700, 16000: 1800, 17000: 1900, 18000: 2000, 19000: 2100, 20000: 2200
       };
       const VAT_RATE = 0.20;
       const roundUpK = n => Math.ceil(n / 1000) * 1000;
