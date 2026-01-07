@@ -221,11 +221,11 @@
         14000: 1700, 15000: 1800, 16000: 1900, 17000: 2000, 18000: 2100, 19000: 2200, 20000: 2300
       };
       const VAT_RATE = 0.20;
-      const roundUpK = n => Math.ceil(n / 1000) * 1000;
+      const roundDownK = n => Math.floor(n / 1000) * 1000;
       const formatGBP = n => `£${n.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
       const getFlat = amt => {
         if (amt < 1000) return 100;
-        const rounded = Math.min(20000, roundUpK(amt));
+        const rounded = Math.min(20000, roundDownK(amt));
         return FLAT[rounded] || 2300;
       };
 
